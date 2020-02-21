@@ -1,5 +1,7 @@
 # Hanami::Operation::Generator
 
+**IMPORTANT: this library working only with hanami 1.3.4+ (or master)**
+
 Simple library wich will generate operation for hanami-dry-system
 
 ## Installation
