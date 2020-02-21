@@ -1,38 +1,77 @@
 # Hanami::Operation::Generator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hanami/operation/generator`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Simple library wich will generate operation for hanami-dry-system
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'hanami-operation-generator'
+group :plugins do
+  gem "hanami-operation-generator", github: 'davydovanton/hanami-operation-generator'
+end
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install hanami-operation-generator
 
 ## Usage
 
-TODO: Write usage instructions here
+Just call `hanami generate operation <domain> <operation_name>` in terminal. This command will generate two files. Example:
 
-## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```
+$ hanami generate operation order show
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+    create  project_path/lib/orders/operations/show.rb
+    create  project_path/spec/orders/operations/show_spec.rb
+```
+
+If you open both files you will see this:
+
+```ruby
+# in project_path/lib/orders/operations/show.rb
+
+# frozen_string_literal: true
+
+module Orders
+  module Operations
+    class List < ::Libs::Operation
+      include Import[
+      ]
+
+      def call()
+        Success(true)
+      end
+    end
+  end
+end
+
+# ----------------------------------
+
+# in project_path/spec/orders/operations/show_spec.rb
+
+# frozen_string_literal: true
+
+RSpec.describe Orders::Operations::List, type: :operation do
+  subject { operation.call }
+
+  let(:operation) do
+    described_class.new
+  end
+
+  it { expect(subject).to be_success }
+
+  context 'with real dependencies' do
+    subject { operation.call }
+
+    let(:operation) { described_class.new }
+
+    it { expect(subject).to be_success }
+  end
+end
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hanami-operation-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/davydovanton/hanami-operation-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
