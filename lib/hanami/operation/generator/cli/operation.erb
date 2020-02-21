@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+module <%= domain.classify %>
+  module Operations
+    class <%= operation.classify %> < ::Libs::Operation
+      include Import[
+      ]
+
+      def call()
+        Success(true)
+      end
+    end
+  end
+end
